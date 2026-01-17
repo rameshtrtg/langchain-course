@@ -1,0 +1,13 @@
+[project]
+name = "static"
+version = "0.1.0"
+description = "Lanchain-Course"
+readme = "README.md"
+requires-python = ">=3.14.2"
+dependencies = [
+    "black>=24.8.0",
+    "isort>=5.13.2",
+    "langchain>=1.2.3",
+    "langchain-openai>=1.1.7",
+    "python-dotenv>=1.2.1",
+]
