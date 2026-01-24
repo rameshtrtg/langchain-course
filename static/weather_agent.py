@@ -1,3 +1,5 @@
+from langchain_tavily import TavilySearch
+from langchain.agents import create_agent
 
 def get_weather(city: str) -> str:
     """Get weather for a given city."""
@@ -10,7 +12,9 @@ def weather_agent():
             system_prompt="You are a helpful assistant",
         )
 
-        # Run the agent
-        agent.invoke(
-            {"messages": [{"role": "user", "content": "What is the weather in San Francisco?"}]}
-        )
+    # Run the agent
+    result = agent.invoke(
+        {"messages": [{"role": "user", "content": "What is the weather in San Francisco?"}]}
+    )
+    response = result.values()
+    print(list(list(response)[-1])[-1].content)
