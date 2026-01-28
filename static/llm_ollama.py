@@ -2,6 +2,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_ollama.chat_models import ChatOllama
 
+from static.agent_response import AuthorResponse
+
 
 def gemma_chain():
     information = """
@@ -22,7 +24,10 @@ def gemma_chain():
 
     # llm = ChatOpenAI(temperature=0, model="gpt-5")
     llm = ChatOllama(temperature=0, model="gemma3:4b")
-    chain = prompt_template | llm
+    # llm = ChatOllama(temperature=0, model="gpt-oss:20b")
+    structured_llm = llm.with_structured_output(AuthorResponse)
+    chain = prompt_template | structured_llm
     response = chain.invoke(input={"information": information})
 
-    print(response.content)
+    print(response.short_summary)
+    print(response.interesting_facts)

@@ -4,6 +4,7 @@ from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
+from agent_response import *
 
 
 
@@ -52,7 +53,19 @@ def weather_tavily_client():
 
 def weather_tavily_search():
     llm = ChatOpenAI(model="gpt-5")
-    tools = [TavilySearch()]
-    agent = create_agent(model=llm, tools=tools)
+    tools = [TavilySearch(max_results=2, search_depth="basic")]
+    # agent = create_agent(model=llm, tools=tools)
+    agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
     result = agent.invoke({"messages": HumanMessage(content="What is weather in Tokyo today?")})
-    print(result["messages"][3].content)
+    print(result["structured_response"])
+
+def person_info_tavily_search():
+    prompt = f"""search about 'Ratan Naval Tata' from https://www.wikipedia.org and create
+            1. A short summary
+            2. two interesting facts about them
+            """
+    llm = ChatOpenAI(model="gpt-5")
+    tools = [TavilySearch()]
+    agent = create_agent(model=llm, tools=tools, response_format=AuthorResponse)
+    result = agent.invoke({"messages": HumanMessage(content=prompt)})
+    print(result["structured_response"])
