@@ -13,3 +13,6 @@ class AgentResponse(BaseModel):
 class AuthorResponse(BaseModel):
     short_summary:str = Field(description="The short summary")
     interesting_facts:List[str] = Field(description="Two Interesting Facts")
+
+class AnswerResponse(BaseModel):
+    answer:str = Field(description="The answers returned by the agent")
