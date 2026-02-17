@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
+import asyncio
 
-from static.llm_ollama import gemma_chain
-from static.tool_calling import *
-from static.weather_agent import *
+from static.rag.web_source_rag import store_web_content_to_vector_db, tavily_extract_store_web_content_to_vector_db, \
+    search_tamidas_document
 
 load_dotenv()
 
-def main():
+async def main():
 
     # gemma_chain()
     # openai_gpt_chain()
@@ -16,7 +16,11 @@ def main():
     # person_info_tavily_search()
     # tool_calling()
     #pet_check_openai()
-    pet_check_ollama()
+    #pet_check_ollama()
+    # search_text()
+    #store_web_content_to_vector_db()
+    #await tavily_extract_store_web_content_to_vector_db()
+    search_tamidas_document()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

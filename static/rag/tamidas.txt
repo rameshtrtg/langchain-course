@@ -1,0 +1,55 @@
+Why TamidaS CMMS?
+
+TamidaS CMMS is a comprehensive maintenance management solution that helps organizations optimize their maintenance operations, reduce downtime, and extend asset life. With powerful features for both reactive and proactive maintenance, our platform ensures your equipment runs at peak performance while minimizing costs.
+
+From breakdown maintenance to condition-based monitoring, asset inventory to employee attendance—TamidaS CMMS provides everything you need to manage maintenance operations efficiently in one integrated platform.
+
+
+
+##Breakdown Maintenance
+
+Respond quickly to equipment failures with our streamlined breakdown maintenance module. Log breakdowns instantly, assign technicians, track repair progress, and analyze failure patterns to prevent future occurrences.
+
+Instant breakdown reporting from mobile or desktop
+Real-time status tracking and notifications
+Detailed failure analysis and root cause documentation
+
+
+##Preventive Maintenance
+
+Prevent equipment failures before they happen with automated preventive maintenance scheduling. Create maintenance plans, set recurring schedules, and ensure all critical assets receive timely attention to maximize uptime and extend equipment life.
+
+Automated PM work order generation based on schedules
+Customizable maintenance checklists and procedures
+Parts and labor cost tracking for each PM task
+Compliance documentation and audit trails
+
+
+##Condition-based Maintenance
+
+Leverage real-time equipment condition monitoring to trigger maintenance only when needed. Monitor parameters like vibration, temperature, pressure, and performance metrics to predict failures and schedule maintenance at the optimal time.
+
+Real-time sensor data integration and monitoring
+Configurable thresholds and alert triggers
+Automatic work order creation when conditions are met
+Trend analysis and predictive failure detection
+
+
+##PM Calendar
+
+Visualize all your preventive maintenance activities in one comprehensive calendar view. Plan ahead, avoid scheduling conflicts, balance workload across teams, and ensure no critical maintenance task is missed with our intuitive PM calendar.
+
+Monthly, weekly, and daily calendar views
+Color-coded activities by priority and status
+Drag-and-drop rescheduling for easy planning
+Resource allocation and workload balancing
+
+
+##Assets Inventory
+
+Maintain a complete digital inventory of all your assets with detailed specifications, maintenance history, documentation, and lifecycle tracking. From equipment registration to retirement, manage every aspect of your asset lifecycle in one centralized system.
+
+Complete asset registry with specifications and documentation
+QR code and barcode scanning for quick asset identification
+Maintenance history and cost tracking per asset
+Asset hierarchy and location tracking
