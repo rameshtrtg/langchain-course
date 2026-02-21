@@ -12,9 +12,10 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_ollama import ChatOllama
-from langchain_core.prompts import ChatPromptTemplate
-
+from langchain.messages import ToolMessage
+from langchain.tools import tool
+from langchain.agents import create_agent
+from langchain.chat_models import init_chat_model
 
 from static.common.logger import log_info, log_error
 
@@ -131,27 +132,81 @@ def format_docs(docs):
     """Format retrieved documents into a single string."""
     return "\n\n".join(doc.page_content for doc in docs)
 
-def search_tamidas_document():
+
+@tool(response_format="content_and_artifact")
+def retrieve_context(query: str):
+    """Retrieve relevant documentation to help answer user queries about LangChain."""
+    # Retrieve top 4 most similar documents
     embedding = OpenAIEmbeddings(model="text-embedding-3-small")
-    #llm = ChatOpenAI()
-    llm = ChatOllama(temperature=0, model="gemma3:4b")
     vectorstores = PineconeVectorStore(index_name="tamidas-web",
-                                        embedding=embedding)
-    retriever = vectorstores.as_retriever(search_kwargs={"k":3})
-    prompt_template = ChatPromptTemplate.from_template(
-   """Answer the question based only on the following context:
+                                       embedding=embedding)
+    retrieved_docs = vectorstores.as_retriever().invoke(query, k=4)
 
-    {context}
+    # Serialize documents for the model
+    serialized = "\n\n".join(
+        (f"Source: {doc.metadata.get('source', 'Unknown')}\n\nContent: {doc.page_content}")
+        for doc in retrieved_docs
+    )
 
-    Question: {question}
+    # Return both serialized content and raw documents
+    return serialized, retrieved_docs
 
-    Provide a detailed answer:""")
 
+def run_llm(query: str) -> Dict[str, Any]:
+    """
+    Run the RAG pipeline to answer a query using retrieved documentation.
+
+    Args:
+        query: The user's question
+
+    Returns:
+        Dictionary containing:
+            - answer: The generated answer
+            - context: List of retrieved documents
+    """
+    # Create the agent with retrieval tool
+    system_prompt = (
+        "You are a helpful AI assistant that answers questions about Tamidas products. "
+        "You have access to a tool that retrieves relevant documentation. "
+        "Use the tool to find relevant information before answering questions. "
+        "Always cite the sources you use in your answers. "
+        "If you cannot find the answer in the retrieved documentation, say so."
+    )
+    # Initialize chat model
+    model = init_chat_model("gpt-5.2", model_provider="openai")
+    agent = create_agent(model, tools=[retrieve_context], system_prompt=system_prompt)
+
+    # Build messages list
+    messages = [{"role": "user", "content": query}]
+
+    # Invoke the agent
+    response = agent.invoke({"messages": messages})
+
+    # Extract the answer from the last AI message
+    answer = response["messages"][-1].content
+
+    # Extract context documents from ToolMessage artifacts
+    context_docs = []
+    for message in response["messages"]:
+        # Check if this is a ToolMessage with artifact
+        if isinstance(message, ToolMessage) and hasattr(message, "artifact"):
+            # The artifact should contain the list of Document objects
+            if isinstance(message.artifact, list):
+                context_docs.extend(message.artifact)
+
+    return {
+        "answer": answer,
+        "context": context_docs
+    }
+
+def search_tamidas_document():
+    """
+        This is an example of Agentic RAG
+        Workflow: User Goal -> Think (Reasoning) -> Act (Retrieve/Use Tool) -> Observe (Evaluate) -> Repeat or Final Answer.
+    """
     # Query
     #question = "what kind of preventive maintenance support is available in TamidaS CMMS?"
     question = "what all products do TamidaS provide?"
-
-    chain = get_search_document_chain(retriever,prompt_template,llm)
-    result_with_lcel = chain.invoke({"question":question})
+    result = run_llm(question)
     print("\nAnswer:")
-    print(result_with_lcel)
+    print(result)

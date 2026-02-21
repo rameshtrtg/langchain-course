@@ -1,12 +1,15 @@
+import os
+
 from dotenv import load_dotenv
 import asyncio
 
+from static.langgraph.reflection_story_writer import write_story
 from static.rag.web_source_rag import store_web_content_to_vector_db, tavily_extract_store_web_content_to_vector_db, \
     search_tamidas_document
 
 load_dotenv()
 
-async def main():
+def main():
 
     # gemma_chain()
     # openai_gpt_chain()
@@ -20,7 +23,9 @@ async def main():
     # search_text()
     #store_web_content_to_vector_db()
     #await tavily_extract_store_web_content_to_vector_db()
-    search_tamidas_document()
+    #search_tamidas_document()
+    write_story()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
+    #asyncio.run(main())

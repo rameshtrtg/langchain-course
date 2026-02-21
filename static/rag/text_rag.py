@@ -54,6 +54,10 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 def search_text():
+    """
+        This is an example of 2-Step RAG.
+        Workflow: User Query -> Retrieve Documents -> Generate Answer.
+    """
     embedding = OpenAIEmbeddings(model="text-embedding-3-large")
     # llm = ChatOpenAI()
     llm = ChatOllama(temperature=0, model="gemma3:4b")
