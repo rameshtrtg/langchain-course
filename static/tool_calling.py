@@ -58,6 +58,9 @@ def pet_check_openai():
     print(result["structured_response"].answer)
 
 def pet_check_ollama():
+    """ReAct Agent which which performs reasoning and
+    tool invocation loop by itself"""
+
     llm = ChatOllama(model="gpt-oss:20b", temperature=0)
     #llm_with_structure = llm.with_structured_output(AnswerResponse)
     tools = [get_animal_category, can_pet]
@@ -67,6 +70,10 @@ def pet_check_ollama():
     print(result["messages"][-1].content)
 
 def pet_check_with_tool_calling_code():
+    """
+    Custom developed ReAct agent by our code handling the tool calling part
+    based on the reasoning of the llm model
+    """
     llm = ChatOllama(model="gpt-oss:20b", temperature=0, callbacks=[AgentCallbackHandler()])
     tools = [get_animal_category, can_pet]
     llm_with_tools = llm.bind_tools(tools)

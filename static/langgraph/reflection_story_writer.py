@@ -20,12 +20,16 @@ def reflection_node(state: MessageGraph):
 
 def should_continue(state: MessageGraph):
     print(len(state["messages"]))
-    if len(state["messages"]) > 6:
+    "No loop and that is why checking for >3. Anything more can generate more than 1 feedback loop"
+    if len(state["messages"]) > 3:
         return END
     return REFLECTIONNODE
 
 def write_story():
-
+    """
+    Reflection Agent: Draft answer → Critique → Revised answer
+    loop: no loop; only 1 feedback and improvement structure
+    """
     global generative_chain, reflection_chain
     generative_chain, reflection_chain = setup_chains()
     graph_builder = StateGraph(state_schema=MessageGraph)
