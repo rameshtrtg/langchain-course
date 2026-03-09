@@ -51,9 +51,21 @@ def run_corrective_rag_graph():
     graph = workflow.compile()
 
     graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
+
+    # for relevant question checks in retrieved doc for answe
     res = graph.invoke(
         {
             "question": "Write about Tamidas products. Which product can be used for machine defect tracking?"
+        }
+    )
+    # Extract the final answer from the last message with tool calls
+    answer = res["generation"]
+    print(answer)
+
+    # for irrelevant question checks in retrieved web for answe
+    res = graph.invoke(
+        {
+            "question": "What tool can be used for C# code generation"
         }
     )
     # Extract the final answer from the last message with tool calls

@@ -13,6 +13,6 @@ def retrieve_doc(state: GraphState):
     embedding = OpenAIEmbeddings(model="text-embedding-3-small")
     vectorstores = PineconeVectorStore(index_name=os.environ.get("INDEX_NAME"),
                                        embedding=embedding)
-    retriever = vectorstores.as_retriever(search_kwargs={"k": 2})
+    retriever = vectorstores.as_retriever(search_kwargs={"k": 3})
     documents = retriever.invoke(question)
     return {"documents": documents, "question": question}
