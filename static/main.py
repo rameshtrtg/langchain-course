@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import asyncio
 
+from static.langgraph.adaptive_rag.graph import run_adaptive_rag_graph
 from static.langgraph.corrective_rag.graph import run_corrective_rag_graph
 from static.langgraph.reflection_story_writer import write_story
 from static.langgraph.reflexion.reflexion_graph import run_reflexion_graph
@@ -30,7 +31,8 @@ def main():
     #write_story()
     # run_reflexion_graph()
     # run_corrective_rag_graph()
-    run_self_rag()
+    # run_self_rag()
+    run_adaptive_rag_graph()
 
 if __name__ == "__main__":
     main()

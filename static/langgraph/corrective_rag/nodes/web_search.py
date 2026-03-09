@@ -8,7 +8,7 @@ from static.langgraph.corrective_rag.state import GraphState
 def web_search(state: GraphState) -> Dict[str, Any]:
     print("---WEB SEARCH---")
     question = state["question"]
-    documents = state["documents"]
+    documents = state.get("documents", [])
     web_search_tool = TavilySearch(max_results=3)
     tavily_results = web_search_tool.invoke({"query": question})['results']
     joined_tavily_result = "\n".join(
